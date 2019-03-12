@@ -1,4 +1,4 @@
-function! floatingpopup#godoc#Open()
+function! s:gogetdoc()
   let l:cmd = [
         \ 'gogetdoc',
         \ '-tags', go#config#BuildTags(),
@@ -10,4 +10,18 @@ function! floatingpopup#godoc#Open()
   endif
 
   return go#util#Exec(l:cmd)
+endfunction
+
+function! floatingpopup#godoc#Open() abort
+  let [l:out, l:err] = s:gogetdoc()
+  if out == -1
+    call go#util#EchoError(out)
+    return
+  endif
+  if l:err
+    call go#util#EchoError(out)
+    return
+  endif
+  let l:out = append(0, split(l:out, "\n"))
+  call floatingpopup#popup#new(out).open()
 endfunction

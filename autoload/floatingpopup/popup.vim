@@ -7,6 +7,7 @@ function! s:popup_open() dict abort
 	call setline(1, self.content)
 	setlocal nonumber nomodified nomodifiable
 	setlocal winhl=Normal:floatingpopupNormal
+	noremap <buffer> <silent> <Esc> :<C-U>close<CR>
 	let popup_bufnr = bufnr('%')
 	let self.bufnr = popup_bufnr
 endfunction
